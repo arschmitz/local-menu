@@ -203,14 +203,25 @@
 	        }
 	    }
 	}
+	var ip = request.headers.host.split(".")
+	ip.pop()
+	ip.pop()
+	ip.shift()
+	ip = ip.join(".")
+	var http = require('http');
 
-	files.forEach(function( file ){
+	http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, function(resp) {
+	  resp.on('data', function(ip) {
+	    files.forEach(function( file ){
 		if( file !== "index.php" && !/\.html|\.php|\.js|DS|\.log|\.json|\.css/.test( file) ){
-			write( "<li><a class='ui-btn' href='http://" + file + "." + addresses[ 0 ] + ".xip.io'><h1>" + file + "</h1></a></li>" );
+			write( "<li><a class='ui-btn' href='http://" + file + "." + ip + ".xip.io'><h1>" + file + "</h1></a></li>" );
 		}
+		
+	});?>
+		</ul>
+		 </div><!-- /content -->
+		</body>
+		</html><?
+	  });
 	});
-?>
-</ul>
- </div><!-- /content -->
-</body>
-</html>
+	?>
